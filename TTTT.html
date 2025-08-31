@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>TTTT Timer</title>
+</head>
+<body>
+<h1>正在計時:</h1>
+<div id="timer">載入中...</div>
+
+<script>
+async function updateTimer() {
+  try {
+    const res = await fetch("/api/TTTT");
+    const data = await res.json();
+    if (data.data) {
+      const start = new Date(data.data.start);
+      const elapsed = Math.floor((Date.now() - start.getTime()) / 1000);
+      document.getElementById("timer").textContent =
+        `${Math.floor(elapsed/3600)}h ${Math.floor((elapsed%3600)/60)}m ${elapsed%60}s`;
+    } else {
+      document.getElementById("timer").textContent = "目前沒有計時";
+    }
+  } catch (e) {
+    document.getElementById("timer").textContent = "讀取失敗";
+  }
+}
+
+setInterval(updateTimer, 1000);
+updateTimer();
+</script>
+</body>
+</html>
