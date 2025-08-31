@@ -1,14 +1,10 @@
-export default async function handler(req, res) {
-  const token = process.env.TTTT_TOKEN; // Vercel 環境變數
-  const auth = Buffer.from(`${token}:api_token`).toString("base64");
-
-  try {
-    const response = await fetch("https://api.track.toggl.com/api/v8/time_entries/current", {
-      headers: { "Authorization": `Basic ${auth}` }
-    });
-    const data = await response.json();
-    res.status(200).json(data);
-  } catch (e) {
-    res.status(500).json({ error: "無法讀取 TTTT 資料" });
-  }
+export default function handler(req, res) {
+  // 假資料，用來測試前端顯示
+  const data = {
+    id: 123456,
+    start: "2025-08-31T20:00:00+08:00",
+    description: "測試計時",
+    duration: 3600
+  };
+  res.status(200).json({ data });
 }
